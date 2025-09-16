@@ -1,106 +1,182 @@
 ---
 import univalleLogo from '../../public/images/univalleLogo.jpg';
 import quanticLogo from '../../public/images/quanticLogo.png';
+import ibmLogo from '../../public/images/ibmquanLogo.png';
 import { Image } from 'astro:assets';
 import Seccion from './Seccion.astro';
+
+// Datos con mini descripción y rol
+const partners = [
+    {
+        name: 'Universidad del Valle',
+        url: 'https://www.univalle.edu.co/',
+        logo: univalleLogo,
+        role: 'Anfitrión',
+        blurb: 'Universidad pública. Sede del Qiskit Fall Fest en Cali.',
+    },
+    {
+        name: 'QuanTIC',
+        url: 'https://quantic.correounivalle.edu.co/',
+        logo: quanticLogo,
+        role: 'Coorganizador',
+        blurb: 'Grupo de investigación en tecnologías cuánticas y óptica de la Universidad del Valle.',
+    },
+    {
+        name: 'IBM Quantum',
+        url: 'https://www.ibm.com/quantum/',
+        logo: ibmLogo,
+        role: 'Sponsor',
+        blurb: 'Iniciativa de IBM que proporciona acceso basado en la nube a computadoras cuánticas avanzadas.'
+    }
+];
 ---
 
-<Seccion class='hosts' title='Partners' id='anfitrion'>
-    <div class='hosts-grid'>
-        <a
-            class='host'
-            href='https://www.univalle.edu.co'
-            target='_blank'
-            rel='noopener'
-        >
-            <Image
-                src={univalleLogo}
-                alt='Universidad del Valle'
-                height={100}
-            />
-        </a>
+<Seccion class='partners' title='Partners' id='partners'>
+    <div class='partners-grid'>
+        {
+            partners.map((p) => (
+                <a
+                    class='partner'
+                    href={p.url}
+                    target='_blank'
+                    rel='noopener'
+                    aria-label={p.name}
+                >
 
-        <a
-            class='host'
-            href='https://www.quanticgroup.io'
-            target='_blank'
-            rel='noopener'
-        >
-            <Image src={quanticLogo} alt='QuanTIC' height={100} />
-        </a>
+                    <div class='partner-media'>
+                        <Image src={p.logo} alt={p.name} height={72} />
+                    </div>
+
+                    <div class='partner-body'>
+                        <div class='partner-head'>
+                            <h3 class='partner-name'>{p.name}</h3>
+                            <span class='partner-tag'>{p.role}</span>
+                        </div>
+                        <p class='partner-blurb'>{p.blurb}</p>
+                    </div>
+                </a>
+            ))
+        }
     </div>
 </Seccion>
 
 <style>
-    /* ---- contenedor ---- */
-    .hosts {
-        width: 100%;
+    /* ===== Partners ===== */
+    .partners {
         max-width: 1100px;
-        margin: 2.5rem auto 0;
+        margin: 0 auto;
         padding: 0 1rem;
     }
-    .hosts-title {
-        margin: 0 0 0.75rem;
-        font-size: 1.9rem;
-        line-height: 1.2;
-    }
 
-    /* grid responsivo (sin bullets, sin <ul>) */
-    .hosts-grid {
-        display: flex;
-        /* grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); */
+    .partners-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 18px;
-        align-items: center;
+        align-items: stretch;
     }
 
-    /* tarjeta para equilibrar logos distintos */
-    .host {
-        display: flex;
+    .partner {
+        position: relative;
+        display: grid;
+        grid-template-columns: 92px 1fr;
+        gap: 14px;
         align-items: center;
-        justify-content: center;
-        background: var(--gris, #f3f3f3);
-        border: 1px solid var(--gris-oscuro, #222);
-        border-radius: 14px;
-        padding: 14px 18px;
+        padding: 14px 16px 16px;
+        border-radius: 16px;
+        text-decoration: none;
+        color: inherit;
+        box-shadow: 0 12px 28px -22px rgba(0, 0, 0, 0.35);
+        background: #fff;
+        border: 1px solid #e3e3e3;
         transition:
             transform 0.15s ease,
             box-shadow 0.2s ease,
             border-color 0.2s ease,
             background 0.2s ease;
     }
-    .host:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 14px 28px -18px rgba(0, 0, 0, 0.35);
-        border-color: color-mix(
-            in oklab,
-            var(--gris-oscuro, #222) 70%,
-            var(--rosa, #ff66aa) 30%
-        );
+    .partner:hover {
+        transform: translateY(-3px);
+        border-color: var(--rosa, #ff66aa);
+        box-shadow: 0 20px 44px -22px rgba(0, 0, 0, 0.45);
     }
 
-    /* IMPORTANTÍSIMO: Astro <Image> = <picture><img>  */
-    .host :is(img, picture > img) {
-        height: var(--host-h, 72px);
-        width: auto;
-        display: block;
-        filter: grayscale(1) contrast(0.85) brightness(0.55);
-        opacity: 0.95;
-        mix-blend-mode: multiply; /* baja blancos chillones sobre gris */
-        transition:
-            filter 0.25s ease,
-            opacity 0.25s ease,
-            mix-blend-mode 0.25s ease;
+    .partner-media {
+        display: grid;
+        place-items: center;
+        width: 92px;
+        height: 92px;
+        border-radius: 14px;
+        background: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        overflow: hidden;
     }
-    .host:hover :is(img, picture > img) {
+    /* Astro <Image> => <picture><img>  — SIN gris, a color */
+    .partner-media :is(img, picture > img) {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        display: block;
         filter: none;
-        opacity: 1;
         mix-blend-mode: normal;
     }
 
-    /* menos movimiento si el usuario lo pide */
+    .partner-body {
+        min-width: 0;
+    }
+    .partner-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 4px;
+    }
+    .partner-name {
+        margin: 0;
+        font-size: 1.05rem;
+        line-height: 1.1;
+    }
+    .partner-tag {
+        flex-shrink: 0;
+        padding: 0.2rem 0.5rem;
+        border-radius: 9999px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #000;
+        background: color-mix(in oklab, #fff 85%, var(--rosa, #ff66aa) 15%);
+        border: 1px solid
+            color-mix(in oklab, #000 10%, var(--rosa, #ff66aa) 90%);
+    }
+    .partner-blurb {
+        margin: 0.15rem 0 0;
+        color: #222;
+        opacity: 0.9;
+    }
+
+    /* Compacto en móvil */
+    @media (max-width: 560px) {
+        .partner {
+            grid-template-columns: 72px 1fr;
+        }
+        .partner-media {
+            width: 72px;
+            height: 72px;
+            border-radius: 12px;
+        }
+        .partner-name {
+            font-size: 1rem;
+        }
+        .partner-tag {
+            font-size: 0.78rem;
+        }
+        .partner-blurb {
+            font-size: 0.95rem;
+        }
+    }
+
+    /* Respeta usuarios con reduce motion */
     @media (prefers-reduced-motion: reduce) {
-        .host,
-        .host :is(img, picture > img) {
+        .partner {
             transition: none;
         }
     }

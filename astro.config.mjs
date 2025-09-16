@@ -6,6 +6,7 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://example.com',
+	site: 'https://niaggar.github.io/',
+	base: '/qiskit-fall-fest-25-univalle',
 	integrations: [mdx(), sitemap()],
 });

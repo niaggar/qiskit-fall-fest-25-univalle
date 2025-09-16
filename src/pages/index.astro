@@ -14,6 +14,7 @@ import timeline01PNG from '../../public/images/Timeline_01.png';
 import themePNG from '../../public/images/Theme.png';
 import Invitados from '../components/Invitados.astro';
 import Agenda from '../components/Agenda.astro';
+import Organizadores from '../components/Organizadores.astro';
 ---
 
 <!doctype html>
@@ -22,7 +23,7 @@ import Agenda from '../components/Agenda.astro';
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
-		<Header />
+		<!-- <Header /> -->
 		<main>
 			<Start />
 
@@ -55,16 +56,7 @@ import Agenda from '../components/Agenda.astro';
 
 			<Anfitrion />
 
-			<Seccion class="organizadores" title="Organizadores" id="organizadores">
-				<p>El evento es organizado por un equipo de voluntarios apasionados por la computación cuántica y la educación. Nuestro objetivo es crear una experiencia inclusiva y enriquecedora para todos los participantes.</p>
-				<ul>
-					<li>Juan Pérez - Coordinador General</li>
-					<li>María Gómez - Coordinadora de Talleres</li>
-					<li>Carlos Rodríguez - Coordinador de Charlas</li>
-					<li>Ana Martínez - Coordinadora de Pósteres</li>
-					<li>Luisa Fernández - Coordinadora de Carreras</li>
-				</ul>
-			</Seccion>
+			<Organizadores />
 
 		</main>
 		<Footer />

@@ -1,0 +1,131 @@
+---
+import Seccion from './Seccion.astro';
+import { Image } from 'astro:assets';
+import defaultImage from '../../public/images/defaultImage.jpeg';
+import andresImage from '../../public/images/andres.jpg';
+import nicolasImage from '../../public/images/nicolas.jpg';
+import alejandroImage from '../../public/images/alejandro.jpeg';
+
+const organizadores = [
+  {
+    nombre: "Alejandro Gómez",
+    afiliacion: "Kipu Quantum",
+    foto: alejandroImage,
+    linkedin: "https://www.linkedin.com/in/alejandro-g%C3%B3mez-cadavid-a00597214/" // <-- actualiza
+  },
+  {
+    nombre: "Andrés Felipe Valencia",
+    afiliacion: "Universidad del Valle",
+    foto: andresImage,
+    linkedin: "https://www.linkedin.com/in/andr%C3%A9s-felipe-valencia-f-928a50271/" // <-- actualiza
+  },
+  {
+    nombre: "Nicolás Aguilera García",
+    afiliacion: "Universidad del Valle",
+    foto: nicolasImage,
+    linkedin: "https://www.linkedin.com/in/niaggar/" // <-- actualiza
+  },
+];
+---
+
+<Seccion class="organizadores" title="Organizadores" id="organizadores">
+  <div class="orgs-grid">
+    {organizadores.map((org) => (
+      <article class="org-card">
+        <Image src={org.foto ?? defaultImage} alt={org.nombre} height={130} class="org-photo" />
+        <div class="org-info">
+          <h3 class="org-name">{org.nombre}</h3>
+          <p class="org-aff">{org.afiliacion}</p>
+
+          {org.linkedin && (
+            <a
+              class="org-linkedin"
+              href={org.linkedin}
+              target="_blank"
+              rel="noopener"
+              aria-label={`LinkedIn de ${org.nombre}`}
+              title="Ver en LinkedIn"
+            >
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                <path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V23h-4V8.5zM8 8.5h3.8v2.0h.05c.53-1.0 1.82-2.05 3.75-2.05 4.01 0 4.75 2.64 4.75 6.08V23h-4v-6.6c0-1.57-.03-3.6-2.2-3.6-2.2 0-2.54 1.72-2.54 3.49V23h-4V8.5z" fill="currentColor"/>
+              </svg>
+            </a>
+          )}
+        </div>
+      </article>
+    ))}
+  </div>
+</Seccion>
+
+<style>
+  .orgs-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap:20px;
+    margin-top:2rem;
+    margin-bottom:5rem;
+  }
+
+  .org-card{
+    background:#fff;
+    border:1px solid #e3e3e3;
+    border-radius:16px;
+    padding:1.2rem 1rem;
+    text-align:center;
+    box-shadow:0 12px 28px -22px rgba(0,0,0,.35);
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+  .org-card:hover{
+    transform: translateY(-3px);
+    box-shadow:0 20px 44px -22px rgba(0,0,0,.45);
+    border-color: var(--rosa, #ff66aa);
+  }
+
+  .org-photo{
+    border-radius:50%;
+    margin-bottom:.75rem;
+    object-fit:cover;
+  }
+
+  .org-name{
+    margin:0 0 .25rem;
+    font-size:1.05rem;
+    font-weight:700;
+    color: var(--gris-oscuro, #222);
+  }
+  .org-aff{
+    margin:0 0 .7rem;
+    font-size:.9rem;
+    color:#555;
+  }
+
+  .org-linkedin{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:0.35rem .3rem 0.4rem 0.5rem;
+    border-radius:9999px;
+    font-weight:700;
+    font-size:.9rem;
+    text-decoration:none;
+    color:#0a66c2;
+    background: color-mix(in oklab, #fff 85%, #0a66c2 15%);
+    border:1px solid color-mix(in oklab, #0a66c2 80%, #000 20%);
+    transition: transform .15s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+  }
+  .org-linkedin:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px -16px rgba(10,102,194,.45);
+    background: color-mix(in oklab, #fff 80%, #0a66c2 20%);
+  }
+
+  @media (max-width: 560px){
+    .org-name{ font-size:1rem; }
+    .org-aff{ font-size:.9rem; }
+    .org-linkedin{ width:100%; justify-content:center; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .org-card, .org-linkedin{ transition:none; }
+  }
+</style>

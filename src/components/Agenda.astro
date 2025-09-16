@@ -2,69 +2,81 @@
 import { getCollection } from 'astro:content';
 import AddToCalendar from './AddToCalendar.astro';
 
-// Carga agenda
 const raw = await getCollection('agenda');
 
-// Utilidades
-function parseHoraStr(h?: string) {
+/* ===== Helpers de fecha sin desfase ===== */
+function toLocalDateFromYMD(input) {
+  // Acepta string 'YYYY-MM-DD' o Date
+  if (typeof input === 'string') {
+    const [y, m, d] = input.split('-').map(Number);
+    return new Date(y, (m ?? 1) - 1, d ?? 1); // <-- LOCAL (no UTC)
+  }
+  if (input instanceof Date) {
+    // Si vino de z.coerce.date() (UTC), usamos getters UTC para recuperar el YMD original,
+    // y creamos una fecha LOCAL con esos componentes.
+    return new Date(
+      input.getUTCFullYear(),
+      input.getUTCMonth(),
+      input.getUTCDate()
+    );
+  }
+  return new Date(input);
+}
+
+function parseHoraStr(h) {
   if (!h) return null;
-  const clean = String(h).replace('.', ':').trim();
-  const [hh, mm = '0'] = clean.split(':');
-  const H = Number(hh);
-  const M = Number(mm);
-  if (Number.isNaN(H) || Number.isNaN(M)) return null;
-  return H * 60 + M;
+  const [hh, mm = '0'] = String(h).replace('.', ':').trim().split(':');
+  const H = Number(hh), M = Number(mm);
+  return Number.isNaN(H) || Number.isNaN(M) ? null : H * 60 + M;
 }
 
-function toRangeStr(minsStart: number | null, minsEnd: number | null, fallback?: string) {
+function toRangeStr(minsStart, minsEnd, fallback) {
+  const fmt = (m) => `${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;
   if (minsStart == null && minsEnd == null) return fallback ?? '';
-  const fmt = (m: number) =>
-    `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
   if (minsStart != null && minsEnd != null) return `${fmt(minsStart)}–${fmt(minsEnd)}`;
-  if (minsStart != null) return `${fmt(minsStart)}`;
-  if (minsEnd != null) return `–${fmt(minsEnd)}`;
-  return fallback ?? '';
+  if (minsStart != null) return fmt(minsStart);
+  return `–${fmt(minsEnd)}`;
 }
 
-// Normaliza items (soporta hora_inicio/hora_fin o el antiguo hora)
-const items = raw.map((e) => {
-  const d = e.data as any;
-  const fecha = new Date(d.fecha);
-  const start =
-    parseHoraStr(d.hora_inicio) ??
-    parseHoraStr(d.hora) ??               // compatibilidad
-    null;
-  const end =
-    parseHoraStr(d.hora_fin) ??
-    (parseHoraStr(d.hora) != null ? parseHoraStr(d.hora)! + 60 : null); // si solo hay hora, asume 60 min
-  const rangeText = toRangeStr(start, end, d.hora);
-  return {
-    fecha,
-    evento: d.evento as string,
-    descripcion: d.descripcion as string | undefined,
-    lugar: d.lugar as string | undefined,
-    start,
-    end,
-    rangeText,
-  };
-})
-.sort((a, b) => a.fecha.getTime() - b.fecha.getTime() || (a.start ?? 0) - (b.start ?? 0));
+/* ===== Normalización ===== */
+const items = raw
+  .map((e) => {
+    const d = e.data;
+    const fechaLocal = toLocalDateFromYMD(d.fecha);   // <-- clave
+    const start = parseHoraStr(d.hora_inicio) ?? parseHoraStr(d.hora) ?? null;
+    const end   = parseHoraStr(d.hora_fin)    ?? (parseHoraStr(d.hora) != null ? parseHoraStr(d.hora) + 60 : null);
+    const rangeText = toRangeStr(start, end, d.hora);
+    return {
+      fecha: fechaLocal,
+      evento: d.evento,
+      descripcion: d.descripcion,
+      lugar: d.lugar,
+      start,
+      end,
+      rangeText,
+      // útil para pasar a AddToCalendar sin desfases:
+      ymd: `${fechaLocal.getFullYear()}-${String(fechaLocal.getMonth()+1).padStart(2,'0')}-${String(fechaLocal.getDate()).padStart(2,'0')}`,
+    };
+  })
+  .sort((a,b) => a.fecha.getTime() - b.fecha.getTime() || (a.start ?? 0) - (b.start ?? 0));
 
-// Agrupar por día legible
-const fmtDay = (d: Date) =>
+/* ===== Formateo por día (fuerza zona horaria) ===== */
+const fmtDay = (d) =>
   d.toLocaleDateString('es-CO', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+    timeZone: 'America/Bogota',   // <-- asegura el día correcto
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
   });
 
 const groups = items.reduce((acc, it) => {
   const key = fmtDay(it.fecha);
   (acc[key] ??= []).push(it);
   return acc;
-}, {} as Record<string, typeof items>);
+}, {});
 ---
+
+
+
+
 
 <section class="schedule" id="programa">
   <div class="schedule__container">
@@ -87,16 +99,16 @@ const groups = items.reduce((acc, it) => {
                 <h4 class="slot__title">{it.evento}</h4>
                 {it.descripcion && <p class="slot__desc">{it.descripcion}</p>}
                 {it.lugar && <span class="slot__place">{it.lugar}</span>}
-
                 <AddToCalendar
-                    title={it.evento}
-                    description={it.descripcion ?? ""}
-                    date={it.fecha}           /* puede ser Date o 'YYYY-MM-DD' */
-                    start={it.start != null ? `${String(Math.floor(it.start/60)).padStart(2,'0')}:${String(it.start%60).padStart(2,'0')}` : "15:00"}
-                    end={it.end   != null ? `${String(Math.floor(it.end/60)).padStart(2,'0')}:${String(it.end%60).padStart(2,'0')}`   : "16:00"}
-                    location={it.lugar ?? ""}
-                    tz="America/Bogota"
-                    />
+                  title={it.evento}
+                  description={it.descripcion ?? ""}
+                  date={it.ymd}            /* 'YYYY-MM-DD' seguro en local */
+                  start={it.start != null ? `${String(Math.floor(it.start/60)).padStart(2,'0')}:${String(it.start%60).padStart(2,'0')}` : "15:00"}
+                  end={it.end   != null ? `${String(Math.floor(it.end/60)).padStart(2,'0')}:${String(it.end%60).padStart(2,'0')}`   : "16:00"}
+                  location={it.lugar ?? ""}
+                  tz="America/Bogota"
+                />
+
               </div>
             </li>
           ))}

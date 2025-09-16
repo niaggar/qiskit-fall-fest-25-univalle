@@ -33,10 +33,22 @@ function pad2(n: number) {
     return String(n).padStart(2, '0');
 }
 
-function parseDate(dateLike: string | Date) {
-    const d = dateLike instanceof Date ? dateLike : new Date(dateLike);
-    if (Number.isNaN(d.getTime())) throw new Error('Fecha inválida');
-    return d;
+function parseDate(input: string | Date) {
+// Acepta string 'YYYY-MM-DD' o Date
+  if (typeof input === 'string') {
+    const [y, m, d] = input.split('-').map(Number);
+    return new Date(y, (m ?? 1) - 1, d ?? 1); // <-- LOCAL (no UTC)
+  }
+  if (input instanceof Date) {
+    // Si vino de z.coerce.date() (UTC), usamos getters UTC para recuperar el YMD original,
+    // y creamos una fecha LOCAL con esos componentes.
+    return new Date(
+      input.getUTCFullYear(),
+      input.getUTCMonth(),
+      input.getUTCDate()
+    );
+  }
+  return new Date(input);
 }
 
 // Construye YYYYMMDD y tiempo local YYYYMMDDTHHMMSS (sin Z).
