@@ -1,0 +1,278 @@
+---
+import { getCollection } from 'astro:content';
+import AddToCalendar from './AddToCalendar.astro';
+
+// Carga agenda
+const raw = await getCollection('agenda');
+
+// Utilidades
+function parseHoraStr(h?: string) {
+  if (!h) return null;
+  const clean = String(h).replace('.', ':').trim();
+  const [hh, mm = '0'] = clean.split(':');
+  const H = Number(hh);
+  const M = Number(mm);
+  if (Number.isNaN(H) || Number.isNaN(M)) return null;
+  return H * 60 + M;
+}
+
+function toRangeStr(minsStart: number | null, minsEnd: number | null, fallback?: string) {
+  if (minsStart == null && minsEnd == null) return fallback ?? '';
+  const fmt = (m: number) =>
+    `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
+  if (minsStart != null && minsEnd != null) return `${fmt(minsStart)}–${fmt(minsEnd)}`;
+  if (minsStart != null) return `${fmt(minsStart)}`;
+  if (minsEnd != null) return `–${fmt(minsEnd)}`;
+  return fallback ?? '';
+}
+
+// Normaliza items (soporta hora_inicio/hora_fin o el antiguo hora)
+const items = raw.map((e) => {
+  const d = e.data as any;
+  const fecha = new Date(d.fecha);
+  const start =
+    parseHoraStr(d.hora_inicio) ??
+    parseHoraStr(d.hora) ??               // compatibilidad
+    null;
+  const end =
+    parseHoraStr(d.hora_fin) ??
+    (parseHoraStr(d.hora) != null ? parseHoraStr(d.hora)! + 60 : null); // si solo hay hora, asume 60 min
+  const rangeText = toRangeStr(start, end, d.hora);
+  return {
+    fecha,
+    evento: d.evento as string,
+    descripcion: d.descripcion as string | undefined,
+    lugar: d.lugar as string | undefined,
+    start,
+    end,
+    rangeText,
+  };
+})
+.sort((a, b) => a.fecha.getTime() - b.fecha.getTime() || (a.start ?? 0) - (b.start ?? 0));
+
+// Agrupar por día legible
+const fmtDay = (d: Date) =>
+  d.toLocaleDateString('es-CO', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
+const groups = items.reduce((acc, it) => {
+  const key = fmtDay(it.fecha);
+  (acc[key] ??= []).push(it);
+  return acc;
+}, {} as Record<string, typeof items>);
+---
+
+<section class="schedule" id="programa">
+  <div class="schedule__container">
+    <header class="schedule__header">
+      <h2>Programa</h2>
+      <p class="hint">Charlas, talleres y actividades — hora local</p>
+    </header>
+
+    {Object.entries(groups).map(([day, entries]) => (
+      <section class="day">
+        <h3 class="day__title">
+          <span class="day__chip">{day}</span>
+        </h3>
+
+        <ol class="timeline">
+          {entries.map((it) => (
+            <li class="slot">
+              <div class="slot__time">{it.rangeText}</div>
+              <div class="slot__card">
+                <h4 class="slot__title">{it.evento}</h4>
+                {it.descripcion && <p class="slot__desc">{it.descripcion}</p>}
+                {it.lugar && <span class="slot__place">{it.lugar}</span>}
+
+                <AddToCalendar
+                    title={it.evento}
+                    description={it.descripcion ?? ""}
+                    date={it.fecha}           /* puede ser Date o 'YYYY-MM-DD' */
+                    start={it.start != null ? `${String(Math.floor(it.start/60)).padStart(2,'0')}:${String(it.start%60).padStart(2,'0')}` : "15:00"}
+                    end={it.end   != null ? `${String(Math.floor(it.end/60)).padStart(2,'0')}:${String(it.end%60).padStart(2,'0')}`   : "16:00"}
+                    location={it.lugar ?? ""}
+                    tz="America/Bogota"
+                    />
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
+  </div>
+</section>
+
+<style>
+  /* ===== Sección oscura ===== */
+  .schedule{
+    --bg: var(--gris-oscuro, #12161d);
+    --ink: #e6e8eb;
+    --gris: #b9c0c7;
+    --accent: var(--rosa, #ff66aa);
+    background:
+      radial-gradient(1200px 600px at 20% -10%, rgba(255,102,170,.12), transparent 60%),
+      var(--bg);
+    color: var(--ink);
+    padding: 2.5rem 0 3rem;
+    margin-top: 5rem;
+  }
+  .schedule__container{ max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
+  .schedule__header h2{ margin: 0 0 .25rem; font-size: 2rem; color: var(--gris);}
+  .schedule__header .hint{ margin: 0 0 1rem; color: var(--gris); }
+
+  /* Día */
+  .day{ position: relative; margin: 1.25rem 0 2rem; }
+  .day__title{ position: sticky; top: 0; z-index: 1; margin: 0 0 .75rem; }
+  .day__chip{
+    display: inline-block;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
+    color: var(--ink);
+    padding: .35rem .7rem;
+    border-radius: 9999px;
+    backdrop-filter: blur(4px);
+    font-size: .95rem;
+  }
+
+  /* Timeline */
+  .timeline{
+    list-style: none; margin: 0; padding: 0 0 0 0.75rem;
+    position: relative;
+  }
+
+  .slot{
+    position: relative;
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 30px;
+    align-items: start;
+    padding: .4rem 0 .45rem 0;
+  }
+  .slot::before{
+    content:""; position:absolute; left: 3px; top: .95rem;
+    width: 14px; height: 14px; border-radius: 9999px;
+    background: var(--accent);
+    box-shadow:
+      0 0 0 3px rgba(255,102,170,.15),
+      0 0 18px -4px rgba(255,102,170,.6);
+  }
+
+  .slot__time{
+    color: var(--gris);
+    font-weight: 700;
+    padding-top: 2rem;
+    letter-spacing: .2px;
+    white-space: nowrap;
+  }
+
+  .slot__card{
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 14px;
+    padding: .85rem .9rem;
+    box-shadow: 0 12px 30px -20px rgba(0,0,0,.6);
+    transition: border-color .2s ease, transform .15s ease, background .2s ease;
+  }
+  .slot__card:hover{
+    transform: translateY(-2px);
+    border-color: color-mix(in oklab, rgba(255,255,255,.14) 70%, var(--accent) 30%);
+    background: rgba(255,255,255,.08);
+  }
+
+  .slot__title{ margin: 0 0 .2rem; font-size: 1.06rem; line-height: 1.2; color: #fff; }
+  .slot__desc{ margin: 0; color: var(--ink); opacity: .9; }
+  .slot__place{
+    display: inline-block; margin-top: .5rem;
+    padding: .25rem .55rem; border-radius: 9999px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.15);
+    color: var(--ink);
+    font-size: .85rem;
+  }
+
+  @media (max-width: 780px){
+    .slot{ grid-template-columns: 88px 1fr; }
+    .timeline::before{ left: 8px; }
+    .slot::before{ left: 1px; }
+    .slot__time{ font-weight: 600; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .slot__card{ transition: none; }
+  }
+
+  /* ====== Responsive fino ====== */
+
+/* <= 900px: afloja la columna de la hora */
+@media (max-width: 900px){
+  .slot{
+    grid-template-columns: 92px 1fr;
+    gap: 18px;
+  }
+  .slot__time{ padding-top: 1.2rem; }
+}
+
+/* <= 640px: modo apilado (móvil) */
+@media (max-width: 640px){
+  .schedule{ padding: 2rem 0 2.4rem; }
+
+  /* quita padding izquierdo de la timeline */
+  .timeline{ padding-left: 0; }
+  /* si dejaste la línea vertical, escóndela */
+  .timeline::before{ display: none; }
+
+  /* cada item ocupa una columna; sin “bolita” a la izquierda */
+  .slot{
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: .6rem 0;
+    position: relative;
+  }
+  .slot::before{ display: none; }
+
+  /* la hora se vuelve un chip encima de la tarjeta */
+  .slot__time{
+    order: -1;
+    padding: 0;
+    white-space: nowrap;
+    align-self: flex-start;
+    color: var(--ink);
+    font-weight: 700;
+    font-size: .95rem;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 9999px;
+    padding: .28rem .6rem;
+    letter-spacing: .2px;
+    margin-left: 2px;
+  }
+
+  /* la tarjeta estira a lo ancho con más padding */
+  .slot__card{
+    padding: .9rem .95rem;
+    border-radius: 12px;
+  }
+  .slot__title{ font-size: 1.02rem; }
+  .slot__desc{ font-size: .97rem; }
+  .slot__place{ font-size: .83rem; }
+
+  /* botones: ancho completo y separados para tap cómodo */
+  .atc{ gap: 8px; }
+  .atc .btn{
+    width: 100%;
+    justify-content: center;
+    padding: .55rem .8rem;
+  }
+}
+
+/* micro-ajustes para pantallas MUY pequeñas */
+@media (max-width: 360px){
+  .slot__title{ font-size: 1rem; }
+  .slot__desc{ font-size: .95rem; }
+}
+
+</style>

@@ -1,0 +1,107 @@
+---
+import univalleLogo from '../../public/images/univalleLogo.jpg';
+import quanticLogo from '../../public/images/quanticLogo.png';
+import { Image } from 'astro:assets';
+import Seccion from './Seccion.astro';
+---
+
+<Seccion class='hosts' title='Partners' id='anfitrion'>
+    <div class='hosts-grid'>
+        <a
+            class='host'
+            href='https://www.univalle.edu.co'
+            target='_blank'
+            rel='noopener'
+        >
+            <Image
+                src={univalleLogo}
+                alt='Universidad del Valle'
+                height={100}
+            />
+        </a>
+
+        <a
+            class='host'
+            href='https://www.quanticgroup.io'
+            target='_blank'
+            rel='noopener'
+        >
+            <Image src={quanticLogo} alt='QuanTIC' height={100} />
+        </a>
+    </div>
+</Seccion>
+
+<style>
+    /* ---- contenedor ---- */
+    .hosts {
+        width: 100%;
+        max-width: 1100px;
+        margin: 2.5rem auto 0;
+        padding: 0 1rem;
+    }
+    .hosts-title {
+        margin: 0 0 0.75rem;
+        font-size: 1.9rem;
+        line-height: 1.2;
+    }
+
+    /* grid responsivo (sin bullets, sin <ul>) */
+    .hosts-grid {
+        display: flex;
+        /* grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); */
+        gap: 18px;
+        align-items: center;
+    }
+
+    /* tarjeta para equilibrar logos distintos */
+    .host {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--gris, #f3f3f3);
+        border: 1px solid var(--gris-oscuro, #222);
+        border-radius: 14px;
+        padding: 14px 18px;
+        transition:
+            transform 0.15s ease,
+            box-shadow 0.2s ease,
+            border-color 0.2s ease,
+            background 0.2s ease;
+    }
+    .host:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 28px -18px rgba(0, 0, 0, 0.35);
+        border-color: color-mix(
+            in oklab,
+            var(--gris-oscuro, #222) 70%,
+            var(--rosa, #ff66aa) 30%
+        );
+    }
+
+    /* IMPORTANTÍSIMO: Astro <Image> = <picture><img>  */
+    .host :is(img, picture > img) {
+        height: var(--host-h, 72px);
+        width: auto;
+        display: block;
+        filter: grayscale(1) contrast(0.85) brightness(0.55);
+        opacity: 0.95;
+        mix-blend-mode: multiply; /* baja blancos chillones sobre gris */
+        transition:
+            filter 0.25s ease,
+            opacity 0.25s ease,
+            mix-blend-mode 0.25s ease;
+    }
+    .host:hover :is(img, picture > img) {
+        filter: none;
+        opacity: 1;
+        mix-blend-mode: normal;
+    }
+
+    /* menos movimiento si el usuario lo pide */
+    @media (prefers-reduced-motion: reduce) {
+        .host,
+        .host :is(img, picture > img) {
+            transition: none;
+        }
+    }
+</style>

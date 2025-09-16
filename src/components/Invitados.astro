@@ -1,0 +1,153 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import defaultImage from '../../public/images/defaultImage.jpeg';
+import Seccion from './Seccion.astro';
+
+const invitados = (await getCollection('invitados')).sort((a, b) =>
+    a.data.nombre.localeCompare(b.data.nombre),
+);
+
+const getFoto = (item) => item.data.foto ?? defaultImage;
+---
+
+<Seccion class='guests' title='Invitados' id='invitados'>
+    <div class='guests-grid'>
+        {
+            invitados.map((item, i) => {
+                const { nombre, afiliacion, bio } = item.data;
+                const foto = getFoto(item);
+                return (
+                    <article class='guest-card'>
+                        {/* franja de color superior */}
+                        <div class='guest-accent' aria-hidden='true' />
+
+                        <div class='guest-top'>
+                            {/* avatar grande con aro */}
+                            <div class='guest-avatar'>
+                                <Image src={foto} alt={nombre} height={140} />
+                            </div>
+
+                            <header class='guest-head'>
+                                <h3 class='guest-name'>{nombre}</h3>
+                                {afiliacion && (
+                                    <p class='guest-role'>{afiliacion}</p>
+                                )}
+                            </header>
+                        </div>
+
+                        <p class='guest-bio'>{bio}</p>
+                    </article>
+                );
+            })
+        }
+    </div>
+</Seccion>
+
+<style>
+    /* ===== Sección / Grid ===== */
+    .guests-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 22px;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    /* ===== Card ===== */
+    .guest-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        background: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.65),
+            rgba(255, 255, 255, 0.35)
+        );
+        border: 0px solid var(--gris-oscuro, #222);
+        border-radius: 18px;
+        padding: 18px 16px 16px;
+        box-shadow: 0 8px 28px -22px rgba(0, 0, 0, 0.971);
+        transition:
+            transform 0.15s ease,
+            box-shadow 0.2s ease,
+            border-color 0.2s ease;
+        overflow: hidden;
+    }
+    .guest-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 18px 42px -22px rgba(0, 0, 0, 0.45);
+    }
+
+    /* Franja/acento arriba */
+    .guest-accent {
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 6px;
+        border-radius: 18px 18px 0 0;
+        background: var(--rosa);
+        pointer-events: none;
+    }
+
+    .guest-top {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 16px;
+        align-items: center;
+    }
+
+    /* ===== Avatar grande SIEMPRE a color ===== */
+    .guest-avatar {
+        position: relative;
+        width: 128px;
+        height: 128px;
+        border-radius: 9999px;
+        overflow: hidden;
+        background: #fff;
+        flex-shrink: 0;
+    }
+    /* imagen real (Astro = <picture><img>) */
+    .guest-avatar :is(img, picture > img) {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        /* SIN GRAYSCALE: siempre color */
+        filter: none;
+        transition: transform 0.25s ease;
+    }
+
+    /* ===== Texto ===== */
+    .guest-head {
+        min-width: 0;
+    }
+    .guest-name {
+        margin: 0 0 4px;
+        font-size: 1.35rem;
+        line-height: 1.15;
+    }
+    .guest-role {
+        margin: 0;
+        font-size: 0.96rem;
+        color: color-mix(in oklab, var(--gris-oscuro, #222) 55%, #999 45%);
+    }
+    .guest-bio {
+        margin: 6px 2px 0;
+        color: #2a2a2a;
+        font-size: 1.1rem;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* Accesibilidad */
+    @media (prefers-reduced-motion: reduce) {
+        .guest-card,
+        .guest-avatar :is(img, picture > img) {
+            transition: none;
+        }
+    }
+</style>

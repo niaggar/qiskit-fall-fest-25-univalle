@@ -1,0 +1,152 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import Start from '../components/Start.astro';
+import Anfitrion from '../components/Anfitrion.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import Seccion from '../components/Seccion.astro';
+
+import { Image } from 'astro:assets';
+
+
+import timeline01PNG from '../../public/images/Timeline_01.png';
+import themePNG from '../../public/images/Theme.png';
+import Invitados from '../components/Invitados.astro';
+import Agenda from '../components/Agenda.astro';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<Start />
+
+			<Seccion class="acercade" title="Acerca del evento" id="acercade">
+			<!-- Fila 1 -->
+			<div class="about-row">
+				<div class="about-text">
+				<p><span class="negrilla">Qiskit Fall Fest</span> es una serie de eventos estudiantiles a nivel mundial que reúne a personas interesadas en explorar y aprender sobre <span class="italica">computación cuántica</span>. <span class="negrilla">Univalle</span> como una de las 150 universidades internacionales seleccionadas para ser sede, nuestro evento marcará una celebración de los avances que la <span class="italica">computación cuántica</span> ha alcanzado en el último año, reuniendo a científicos con experiencia y a jóvenes entusiastas para compartir conocimientos en charlas, talleres y actividades colaborativas.</p>
+				</div>
+				<figure class="about-figure">
+				<Image src={timeline01PNG} alt="Ilustración del evento" height={280} />
+				</figure>
+			</div>
+
+			<!-- Fila 2 (invertida en desktop; en móvil se apila igual) -->
+			<div class="about-row about-row--invert">
+				<figure class="about-figure">
+				<Image src={themePNG} alt="100 Years of Quantum Mechanics" height={200} />
+				</figure>
+				<div class="about-text">
+				<p>En 2025 celebramos el <span class="italica negrilla">Año Internacional de la Ciencia y la Tecnología Cuánticas (IYQ)</span>, proclamado por las Naciones Unidas para conmemorar el centenario del nacimiento de la mecánica cuántica moderna, una iniciativa que busca resaltar un siglo de avances en investigación, tecnología e innovación y proyectar los desafíos y oportunidades que marcarán el futuro de la ciencia cuántica; este es un momento emocionante, pues la industria cuántica avanza rápidamente y se proyecta que alcance la ventaja cuántica para 2026, y a través del <span class="negrilla">Qiskit Fall Fest</span> tenemos la oportunidad de ser parte de ese camino.</p>
+				</div>
+			</div>
+			</Seccion>
+
+
+			<Invitados />
+
+			<Agenda />
+
+			<Anfitrion />
+
+			<Seccion class="organizadores" title="Organizadores" id="organizadores">
+				<p>El evento es organizado por un equipo de voluntarios apasionados por la computación cuántica y la educación. Nuestro objetivo es crear una experiencia inclusiva y enriquecedora para todos los participantes.</p>
+				<ul>
+					<li>Juan Pérez - Coordinador General</li>
+					<li>María Gómez - Coordinadora de Talleres</li>
+					<li>Carlos Rodríguez - Coordinador de Charlas</li>
+					<li>Ana Martínez - Coordinadora de Pósteres</li>
+					<li>Luisa Fernández - Coordinadora de Carreras</li>
+				</ul>
+			</Seccion>
+
+		</main>
+		<Footer />
+	</body>
+</html>
+
+
+
+<style>
+	main {
+		min-height: 80vh;
+	}
+
+	.banner {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 2em 1em 4em 1em;
+		background: var(--gris);
+		max-width: 700px;
+		margin: auto;
+	}
+
+	.negrilla {
+		font-weight: 700;
+		color: var(--rosa, #ff66aa);
+	}
+
+	.italica {
+		font-style: italic;
+	}
+	
+
+
+
+	/* ===== Acerca del evento (responsive limpio) ===== */
+.acercade { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
+
+.about-row{
+  display: grid;
+  grid-template-columns: 1.3fr .7fr;          /* texto más ancho */
+  gap: clamp(14px, 4vw, 28px);
+  align-items: center;
+  margin: 1rem 0 1.5rem;
+}
+.about-row--invert{ grid-template-columns: .7fr 1.3fr; } /* imagen izquierda, texto derecha */
+
+.about-text{ max-width: 70ch; }
+
+/* Figura circular con anillo suave y tamaño adaptable */
+.about-figure{
+  margin: 0; place-self: center;
+  position: relative; width: min(320px, 40vw);overflow: hidden;
+  isolation: isolate;
+}
+/* Astro <Image> => <picture><img> */
+.about-figure :is(img, picture>img){
+  width: 100%; height: 100%; object-fit: cover; display:block;
+  border-radius: inherit;
+}
+
+/* ===== Breakpoints ===== */
+@media (max-width: 960px){
+  .about-row, .about-row.about-row--invert{
+    grid-template-columns: 1fr 1fr;           /* balancea */
+  }
+}
+
+@media (max-width: 720px){
+  .about-row, .about-row.about-row--invert{
+    grid-template-columns: 1fr;               /* apilar */
+  }
+  .about-figure{ width: min(220px, 60vw); margin-top: .4rem; }
+  .about-text{ max-width: 100%; }
+  /* centra contenido en móvil para que respire */
+  .about-row{ text-align: left; }
+  .about-row.about-row--invert{ text-align: left; }
+}
+
+@media (max-width: 420px){
+  .about-figure{ width: min(180px, 70vw); }
+}
+
+</style>
