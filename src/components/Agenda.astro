@@ -9,7 +9,8 @@ function toLocalDateFromYMD(input) {
   if (typeof input === 'string') {
     // Asume formato 'YYYY-MM-DD' y hora en 00:00 en COLOMBIA (UTC-5) SIEMPRE
     const [yy, mm, dd] = input.split('-').map(Number);
-    return new Date(yy, mm - 1, dd);
+    return new Date(`${yy}-${mm}-${dd}T00:00:00-05:00`);     // interpreta 00:00 en −05:00
+
   }
   if (input instanceof Date) {
     // Si vino de z.coerce.date() (UTC), usamos getters UTC para recuperar el YMD original,
