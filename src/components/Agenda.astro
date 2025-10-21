@@ -6,10 +6,10 @@ const raw = await getCollection('agenda');
 
 /* ===== Helpers de fecha sin desfase ===== */
 function toLocalDateFromYMD(input) {
-  // Acepta string 'YYYY-MM-DD' o Date
   if (typeof input === 'string') {
-    const [y, m, d] = input.split('-').map(Number);
-    return new Date(y, (m ?? 1) - 1, d ?? 1); // <-- LOCAL (no UTC)
+    // Asume formato 'YYYY-MM-DD' y hora en 00:00 en COLOMBIA (UTC-5) SIEMPRE
+    const [yy, mm, dd] = input.split('-').map(Number);
+    return new Date(yy, mm - 1, dd);
   }
   if (input instanceof Date) {
     // Si vino de z.coerce.date() (UTC), usamos getters UTC para recuperar el YMD original,
