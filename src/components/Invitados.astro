@@ -9,13 +9,13 @@ import karemFoto from '../../public/images/invitados/karem.jpg';
 import alejandroFoto from '../../public/images/alejandro.jpeg';
 
 import kevinFoto from '../../public/images/invitados/defaultImage.png';
-import williamFoto from '../../public/images/invitados/defaultImage.png';
+import williamFoto from '../../public/images/invitados/william.jpeg';
 
 // Invitados definidos manualmente
 const invitados = [
   {
     nombre: "William E. Salazar",
-    afiliacion: "...",
+    afiliacion: "Pasante en LG Electronics",
     bio: "Investigador en tecnologías cuánticas y aplicaciones en optimización. Confirmado PRESENCIAL.",
     foto: williamFoto,
   },
@@ -51,7 +51,7 @@ const invitados = [
   },
   {
     nombre: "Kevin Joven",
-    afiliacion: "Ingeniería Electrónica ...",
+    afiliacion: "North Carolina State University",
     bio: "Estudiante e investigador en hardware cuántico. Confirmado VIRTUAL.",
     foto: kevinFoto,
   },
@@ -116,6 +116,7 @@ const hayInvitados = invitados.length > 0;
         gap: 22px;
         align-items: stretch;
         width: 100%;
+        margin-bottom:5rem;
     }
 
     .guest-card {
@@ -180,18 +181,18 @@ const hayInvitados = invitados.length > 0;
     }
     .guest-name {
         margin: 0 0 4px;
-        font-size: 1.35rem;
+        font-size: 1.15rem;
         line-height: 1.15;
     }
     .guest-role {
         margin: 0;
-        font-size: 0.96rem;
+        font-size: 0.95rem;
         color: color-mix(in oklab, var(--gris-oscuro, #222) 55%, #999 45%);
     }
     .guest-bio {
         margin: 6px 2px 0;
         color: #2a2a2a;
-        font-size: 1.1rem;
+        font-size: 0.95rem;
         line-height: 1.5;
         display: -webkit-box;
         -webkit-line-clamp: 5;
@@ -204,6 +205,7 @@ const hayInvitados = invitados.length > 0;
         place-items: center;
         width: 100%;
         padding: 1rem 0 0;
+        margin-bottom:5rem;
     }
     .soon-card {
         box-sizing: border-box;

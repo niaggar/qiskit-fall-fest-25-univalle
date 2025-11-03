@@ -11,6 +11,15 @@
 	--gris: #F4F4F4;
 }
 
+.negrilla {
+	font-weight: 700;
+	color: var(--rosa, #ff66aa);
+}
+
+.italica {
+	font-style: italic;
+}
+
 
 body {
 	font-family: "IBM Plex Sans", sans-serif;
