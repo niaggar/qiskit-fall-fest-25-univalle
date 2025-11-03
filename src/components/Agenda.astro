@@ -52,6 +52,7 @@ const items = raw
       evento: d.evento,
       descripcion: d.descripcion,
       lugar: d.lugar,
+      ponente: d.ponente,
       start,
       end,
       rangeText,
@@ -98,6 +99,7 @@ const groups = items.reduce((acc, it) => {
               <div class="slot__time">{it.rangeText}</div>
               <div class="slot__card">
                 <h4 class="slot__title">{it.evento}</h4>
+                <h5 class="slot__ponente">{it.ponente}</h5>
                 {it.descripcion && <p class="slot__desc">{it.descripcion}</p>}
                 {it.lugar && <span class="slot__place">{it.lugar}</span>}
                 <AddToCalendar
@@ -196,8 +198,14 @@ const groups = items.reduce((acc, it) => {
     background: rgba(255,255,255,.08);
   }
 
+  .slot__ponente{
+    margin: 0 0 .4rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gris);
+  }
   .slot__title{ margin: 0 0 .2rem; font-size: 1.06rem; line-height: 1.2; color: #fff; }
-  .slot__desc{ margin: 0; color: var(--ink); opacity: .9; }
+  .slot__desc{ margin: 0; color: var(--ink); opacity: .9; font-size: .97rem; }
   .slot__place{
     display: inline-block; margin-top: .5rem;
     padding: .25rem .55rem; border-radius: 9999px;

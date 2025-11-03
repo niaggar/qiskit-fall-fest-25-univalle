@@ -18,6 +18,7 @@ const agenda = defineCollection({
 		z.object({
 			evento: z.string(),
 			descripcion: z.string(),
+			ponente: z.string().optional(),
 			fecha: z.string(),
 			hora_inicio: z.string(),
 			hora_fin: z.string(),
