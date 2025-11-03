@@ -1,13 +1,53 @@
 ---
 import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
-import defaultImage from '../../public/images/defaultImage.jpeg';
 import Seccion from './Seccion.astro';
 
-const invitados = (await getCollection('invitados')).sort((a, b) =>
-    a.data.nombre.localeCompare(b.data.nombre),
-);
-const getFoto = (item) => item.data.foto ?? defaultImage;
+// Invitados definidos manualmente
+const invitados = [
+  {
+    nombre: "William E. Salazar",
+    afiliacion: "...",
+    bio: "Investigador en tecnologías cuánticas y aplicaciones en optimización. Confirmado PRESENCIAL.",
+    foto: "../../public/images/william.jpg",
+  },
+  {
+    nombre: "Alberto Maldonado Romo",
+    afiliacion: "IBM Quantum (IBM Research, Estados Unidos)",
+    bio: "Especialista en computación cuántica aplicada a problemas financieros. Confirmado VIRTUAL.",
+    foto: "../../public/images/alberto.jpg",
+  },
+  {
+    nombre: "Alejandro Gomez",
+    afiliacion: "Kipu Quantum (Alemania)",
+    bio: "Trabaja en teoría cuántica de la información y simulación de sistemas correlacionados. Confirmado PRESENCIAL/VIRTUAL.",
+    foto: "../../public/images/alejandro.jpg",
+  },
+  {
+    nombre: "Prof. Marcela Herrera",
+    afiliacion: "Universidad del Valle",
+    bio: "Profesora e investigadora en óptica cuántica. Confirmado PRESENCIAL.",
+    foto: "../../public/images/marcela.jpg",
+  },
+  {
+    nombre: "Prof. Omar Calderón",
+    afiliacion: "Universidad del Valle",
+    bio: "Profesor e investigador en teoría de campos cuánticos. Confirmado PRESENCIAL.",
+    foto: "../../public/images/omar.jpg",
+  },
+  {
+    nombre: "Prof. Karem Rodriguez",
+    afiliacion: "Universidad del Valle",
+    bio: "Profesora en ingeniería física y coordinadora de proyectos cuánticos. Confirmado PRESENCIAL.",
+    foto: "../../public/images/karem.jpg",
+  },
+  {
+    nombre: "Kevin Joven",
+    afiliacion: "Ingeniería Electrónica ...",
+    bio: "Estudiante e investigador en hardware cuántico. Confirmado VIRTUAL.",
+    foto: "../../public/images/kevin.jpg",
+  },
+];
+
 const hayInvitados = invitados.length > 0;
 ---
 
@@ -16,8 +56,7 @@ const hayInvitados = invitados.length > 0;
         hayInvitados ? (
             <div class='guests-grid'>
                 {invitados.map((item) => {
-                    const { nombre, afiliacion, bio } = item.data;
-                    const foto = getFoto(item);
+                    const { nombre, afiliacion, bio, foto } = item;
                     return (
                         <article class='guest-card'>
                             <div class='guest-accent' aria-hidden='true' />
@@ -45,7 +84,6 @@ const hayInvitados = invitados.length > 0;
                 })}
             </div>
         ) : (
-            /* Estado vacío — Próximamente */
             <div class='guests-empty' role='status' aria-live='polite'>
                 <div class='soon-card'>
                     <div class='soon-visual' aria-hidden='true'>
@@ -53,7 +91,8 @@ const hayInvitados = invitados.length > 0;
                         <span class='core' />
                     </div>
                     <h3 class='soon-title'>Próximamente</h3>
-                    <p class='soon-text'> Vuelve pronto para conocer la lista completa.
+                    <p class='soon-text'>
+                        Vuelve pronto para conocer la lista completa.
                     </p>
                 </div>
             </div>
@@ -62,7 +101,6 @@ const hayInvitados = invitados.length > 0;
 </Seccion>
 
 <style>
-    /* ===== Grid normal (cuando hay invitados) ===== */
     .guests-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -152,7 +190,6 @@ const hayInvitados = invitados.length > 0;
         overflow: hidden;
     }
 
-    /* ===== Estado vacío (“Próximamente”) ===== */
     .guests-empty {
         display: grid;
         place-items: center;
@@ -175,64 +212,6 @@ const hayInvitados = invitados.length > 0;
         width: 100%;
         overflow: hidden;
     }
-    .soon-accent {
-        position: absolute;
-        inset: 0 0 auto 0;
-        height: 6px;
-        border-radius: 18px 18px 0 0;
-        background: linear-gradient(
-            90deg,
-            var(--rosa, #ff66aa),
-            #7aa7ff 45%,
-            #a78bfa 75%,
-            var(--rosa, #ff66aa)
-        );
-        opacity: 0.95;
-        pointer-events: none;
-    }
-
-    /* Visual con órbita sutil */
-    .soon-visual {
-        position: relative;
-        width: 120px;
-        height: 120px;
-        border-radius: 9999px;
-        margin-bottom: 0.2rem;
-        background: radial-gradient(
-                circle at 60% 40%,
-                rgba(255, 102, 170, 0.16),
-                transparent 40%
-            ),
-            #fff;
-        border: 1px solid rgba(0, 0, 0, 0.06);
-        box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.03);
-        isolation: isolate;
-    }
-    .soon-visual .core {
-        position: absolute;
-        inset: 36% 36% 36% 36%;
-        border-radius: 9999px;
-        background: var(--rosa, #ff66aa);
-        opacity: 0.9;
-        box-shadow: 0 0 22px -6px var(--rosa, #ff66aa);
-    }
-    .soon-visual .orbit {
-        position: absolute;
-        inset: 6px;
-        border-radius: 9999px;
-        border: 2px dashed
-            color-mix(in oklab, var(--rosa, #ff66aa) 70%, #7aa7ff 30%);
-        animation: spin 12s linear infinite;
-    }
-
-    .soon-title {
-        margin: 0.2rem 0 0;
-        font-size: 1.35rem;
-    }
-    .soon-text {
-        margin: 0;
-        color: #333;
-    }
 
     @keyframes spin {
         to {
@@ -240,7 +219,6 @@ const hayInvitados = invitados.length > 0;
         }
     }
 
-    /* ===== Responsive ===== */
     @media (max-width: 560px) {
         .guest-name {
             font-size: 1.15rem;
@@ -249,22 +227,12 @@ const hayInvitados = invitados.length > 0;
             font-size: 1rem;
             -webkit-line-clamp: 4;
         }
-        .soon-card {
-            padding: 1.1rem 0.9rem;
-        }
-        .soon-title {
-            font-size: 1.15rem;
-        }
     }
 
-    /* Accesibilidad: reduce motion */
     @media (prefers-reduced-motion: reduce) {
         .guest-card,
         .guest-avatar :is(img, picture > img) {
             transition: none;
-        }
-        .soon-visual .orbit {
-            animation: none;
         }
     }
 </style>
