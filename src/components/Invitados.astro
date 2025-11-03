@@ -1,6 +1,15 @@
 ---
 import { Image } from 'astro:assets';
 import Seccion from './Seccion.astro';
+import albertoFoto from '../../public/images/invitados/alberto.jpeg';
+import marcelaFoto from '../../public/images/invitados/marcela.jpg';
+import omarFoto from '../../public/images/invitados/omar.png';
+import karemFoto from '../../public/images/invitados/karem.jpg';
+
+import alejandroFoto from '../../public/images/alejandro.jpeg';
+
+import kevinFoto from '../../public/images/invitados/defaultImage.png';
+import williamFoto from '../../public/images/invitados/defaultImage.png';
 
 // Invitados definidos manualmente
 const invitados = [
@@ -8,43 +17,43 @@ const invitados = [
     nombre: "William E. Salazar",
     afiliacion: "...",
     bio: "Investigador en tecnologías cuánticas y aplicaciones en optimización. Confirmado PRESENCIAL.",
-    foto: "../../public/images/william.jpg",
+    foto: williamFoto,
   },
   {
     nombre: "Alberto Maldonado Romo",
     afiliacion: "IBM Quantum (IBM Research, Estados Unidos)",
     bio: "Especialista en computación cuántica aplicada a problemas financieros. Confirmado VIRTUAL.",
-    foto: "../../public/images/alberto.jpeg",
+    foto: albertoFoto,
   },
   {
     nombre: "Alejandro Gomez",
     afiliacion: "Kipu Quantum (Alemania)",
     bio: "Trabaja en teoría cuántica de la información y simulación de sistemas correlacionados. Confirmado PRESENCIAL/VIRTUAL.",
-    foto: "../../public/images/alejandro.jpeg",
+    foto: alejandroFoto,
   },
   {
     nombre: "Prof. Alba Marcela Herrera",
     afiliacion: "Universidad del Valle",
     bio: "Profesora e investigadora en óptica cuántica. Confirmado PRESENCIAL.",
-    foto: "../../public/images/marcela.jpg",
+    foto: marcelaFoto,
   },
   {
     nombre: "Prof. Omar Calderón",
     afiliacion: "Universidad del Valle",
     bio: "Profesor e investigador en teoría de campos cuánticos. Confirmado PRESENCIAL.",
-    foto: "../../public/images/omar.png",
+    foto: omarFoto,
   },
   {
     nombre: "Prof. Karem Rodriguez",
     afiliacion: "Universidad del Valle",
     bio: "Profesora en ingeniería física y coordinadora de proyectos cuánticos. Confirmado PRESENCIAL.",
-    foto: "../../public/images/karem.jpg",
+    foto: karemFoto,
   },
   {
     nombre: "Kevin Joven",
     afiliacion: "Ingeniería Electrónica ...",
     bio: "Estudiante e investigador en hardware cuántico. Confirmado VIRTUAL.",
-    foto: "../../public/images/kevin.jpg",
+    foto: kevinFoto,
   },
 ];
 
