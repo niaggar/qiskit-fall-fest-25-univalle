@@ -1,6 +1,6 @@
 ---
 evento: "Taller - Modelo de Ising y Aplicaciones Cuánticas"
-ponente: "Alejandro Gómez"
+ponente: "Andrés Valencia & Alejandro Gómez"
 fecha: "2025-11-19"
 hora_inicio: "15:30"
 hora_fin: "17:00"

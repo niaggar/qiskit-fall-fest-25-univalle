@@ -1,6 +1,6 @@
 ---
 evento: "Taller - Introducción a Qiskit y Hardware Cuántico"
-ponente: "Andrés Ducuara & Alejandro Gómez"
+ponente: "Andrés Valencia & Alejandro Gómez"
 fecha: "2025-11-17"
 hora_inicio: "15:30"
 hora_fin: "17:00"
