@@ -1,8 +1,8 @@
 ---
-evento: "Clase - Aplicaciones y Ecosistema de la Computación Cuántica"
+evento: "Clase - Simulación de Sistemas Cuánticos"
 ponente: "Alejandro Gómez"
 fecha: "2025-11-20"
 hora_inicio: "14:00"
 hora_fin: "15:30"
-descripcion: "Panorama de las aplicaciones de la computación cuántica, software y herramientas actuales, plataformas y productos del ecosistema cuántico, y su proyección en investigación e industria."
+descripcion: "Simulación de la evolución unitaria de sistemas cuánticos mediante la ecuación de Schrödinger. Aplicaciones en sistemas físicos y software de ingeniería cuántica."
 ---

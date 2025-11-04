@@ -1,8 +1,8 @@
 ---
-evento: "Taller - Modelo de Ising y Aplicaciones Cuánticas"
+evento: "Taller - Teletransportación Cuántica con Qiskit"
 ponente: "Andrés Valencia & Alejandro Gómez"
 fecha: "2025-11-19"
 hora_inicio: "15:30"
 hora_fin: "17:00"
-descripcion: "Exploración del modelo de Ising y su uso en problemas de optimización, simulación cuántica y aprendizaje automático cuántico (QML)."
+descripcion: "Desarrollo práctico del protocolo de teletransportación cuántica mediante Qiskit y otras plataformas de simulación cuántica."
 ---
