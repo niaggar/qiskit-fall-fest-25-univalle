@@ -90,7 +90,9 @@ const groups = items.reduce((acc, it) => {
     {Object.entries(groups).map(([day, entries]) => (
       <section class="day">
         <h3 class="day__title">
-          <span class="day__chip">{day}</span>
+          <span class="day__chip">
+            {day === 'lunes, 17 de noviembre de 2025' ? `${day} (Virtual)` : day}
+          </span>
         </h3>
 
         <ol class="timeline">

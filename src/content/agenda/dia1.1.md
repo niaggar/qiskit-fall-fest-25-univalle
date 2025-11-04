@@ -1,5 +1,5 @@
 ---
-evento: "Bienvenida y Presentación del Evento (VIRTUAL)"
+evento: "Bienvenida y Presentación del Evento"
 ponente: "Organizadores"
 fecha: "2025-11-17"
 hora_inicio: "14:00"
