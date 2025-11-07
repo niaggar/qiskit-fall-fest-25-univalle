@@ -1,33 +1,18 @@
 ---
 import Seccion from './Seccion.astro';
 import { Image } from 'astro:assets';
-import andresImage from '../../public/images/andres.jpg';
-import nicolasImage from '../../public/images/nicolas.jpg';
-import alejandroImage from '../../public/images/alejandro.jpeg';
+import catalinaImage from '../../public/images/Catalina.jpeg';
 
 const organizadores = [
   {
-    nombre: "Alejandro Gómez",
-    afiliacion: "Kipu Quantum",
-    foto: alejandroImage,
-    linkedin: "https://www.linkedin.com/in/alejandro-g%C3%B3mez-cadavid-a00597214/" // <-- actualiza
-  },
-  {
-    nombre: "Andrés Felipe Valencia",
-    afiliacion: "Universidad del Valle - Quantic",
-    foto: andresImage,
-    linkedin: "https://www.linkedin.com/in/andr%C3%A9s-felipe-valencia-f-928a50271/" // <-- actualiza
-  },
-  {
-    nombre: "Nicolás Aguilera García",
-    afiliacion: "Universidad del Valle - Quantic",
-    foto: nicolasImage,
-    linkedin: "https://www.linkedin.com/in/niaggar/" // <-- actualiza
+    nombre: "Catalina González Benjumea",
+    afiliacion: "Estudiante del Programa de Física. Representante de Mujer Científica.",
+    foto: catalinaImage,
   },
 ];
 ---
 
-<Seccion class="organizadores" title="Organizadores" id="organizadores">
+<Seccion class="Coorganizadores" title="Coorganizadores" id="coorganizadores">
   <div class="orgs-grid">
     {organizadores.map((org) => (
       <article class="org-card">
@@ -120,6 +105,7 @@ const organizadores = [
   @media (max-width: 560px){
     .org-name{ font-size:1rem; }
     .org-aff{ font-size:.9rem; }
+    .org-linkedin{ width:100%; justify-content:center; }
   }
 
   @media (prefers-reduced-motion: reduce){
