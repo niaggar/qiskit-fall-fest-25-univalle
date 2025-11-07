@@ -1,6 +1,6 @@
 ---
 evento: "Charla - Experiencia de Pasantía en Computación Cuántica"
-ponente: "Andrés Valencia"
+ponente: "Andrés Valencia & Nicolás Aguilera"
 fecha: "2025-11-17"
 hora_inicio: "16:00"
 hora_fin: "16:45"
