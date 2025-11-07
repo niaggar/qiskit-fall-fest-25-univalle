@@ -1,6 +1,6 @@
 ---
 evento: "Clase - Fundamentos Básicos de la Computación Cuántica"
-ponente: "Prof. Alba Marcela H."
+ponente: "Marcela Herrera"
 fecha: "2025-11-18"
 hora_inicio: "14:00"
 hora_fin: "15:30"

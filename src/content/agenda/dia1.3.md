@@ -1,6 +1,6 @@
 ---
 evento: "Charla - Experiencia de Pasantía en Computación Cuántica"
-ponente: "Andrés Valencia (Universidad del Valle)"
+ponente: "Andrés Valencia"
 fecha: "2025-11-17"
 hora_inicio: "16:00"
 hora_fin: "16:45"
