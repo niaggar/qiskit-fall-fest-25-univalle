@@ -29,12 +29,109 @@ import { Image } from 'astro:assets';
             </a>
             -->
 
-            <p class='btn-shine text-center'>
-                Inscripciones a partir del 10 de octubre
+            <div class='btn-shine tooltip' style='cursor: default;'>
+                <p class='text-center m-0'>
+                    Las inscripciones se abren a partir del 10 de octubre.
+                </p>
                 <span class='shine' aria-hidden='true'></span>
-            </p>
+                <span class='tooltiptext'>Próximamente aquí estará el link de registro</span>
+            </div>
         </div>
     </div>
+</section>
+
+<style>
+/* Mantiene el efecto brillante original */
+.btn-shine {
+    position: relative;
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    color: #fff;
+    background: linear-gradient(90deg, #0057ff, #007bff);
+    border-radius: 0.75rem;
+    font-weight: 600;
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+.btn-shine:hover {
+    transform: scale(1.02);
+}
+
+/* Brillo animado */
+.btn-shine .shine {
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.5) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-20deg);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% {
+        left: -75%;
+    }
+    50% {
+        left: 125%;
+    }
+    100% {
+        left: 125%;
+    }
+}
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 240px;
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Flechita */
+.tooltip .tooltiptext::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #222 transparent transparent transparent;
+}
+
+/* Mostrar tooltip al pasar el mouse */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
 
     <div class='venue'>
         <span class='venue-pill'>
