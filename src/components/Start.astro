@@ -1,5 +1,6 @@
 ---
 import quiskitSVG from '../../public/images/Badge_Dark.svg';
+import facultadLogo from '../../public/images/facultad.jpeg';
 import { Image } from 'astro:assets';
 ---
 
@@ -55,8 +56,12 @@ import { Image } from 'astro:assets';
             <span class='venue-text'>Universidad del Valle</span>
         </span>
 
-        <span class='venue-line' aria-hidden='true'></span>
+        <div class='facultad'>
+        <Image src={facultadLogo} alt='Facultad de Ciencias Naturales y Exactas' />
+        </div>
     </div>
+
+
 
     <!-- Google Maps embed -->
     <div class='map-container'>
@@ -73,6 +78,18 @@ import { Image } from 'astro:assets';
 </section>
 
 <style>
+    .facultad {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 300px;
+        border-radius: 16px;
+        padding: 1em;
+        overflow: hidden;
+        background: #fff;
+    }
+
     a {
         display: inline-block;
         text-decoration: none;
@@ -223,27 +240,28 @@ import { Image } from 'astro:assets';
 
     /* ===== Venue banner (lugar) ===== */
 .venue{
-  width: 100%;
-  max-width: 920px;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 16px;
 }
 
 
 
 .venue-pill{
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: .55rem .9rem;
-  border-radius: 9999px;
-  color: var(--gris-oscuro, #222);
-  background:
-    radial-gradient(120% 120% at 20% 0%, rgba(255,102,170,.18), transparent 60%),
-    #fff;
-  border: 1px solid color-mix(in oklab, var(--gris-oscuro, #222) 70%, #fff 30%);
-  box-shadow: 0 10px 24px -18px rgba(0,0,0,.35);
+    width: 300px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: .55rem .9rem;
+    border-radius: 16px;
+    color: var(--gris-oscuro, #222);
+    background:
+        radial-gradient(120% 120% at 20% 0%, rgba(255,102,170,.18), transparent 60%),
+        #fff;
 }
 
 .venue-pill .pin{
@@ -286,5 +304,9 @@ import { Image } from 'astro:assets';
         .dates {
             align-items: center;
         }
+
+        section {
+        padding-top: 0px;
+    }
     }
 </style>
