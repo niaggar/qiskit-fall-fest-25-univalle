@@ -1,9 +1,9 @@
 ---
-evento: "Hackathon - Cierre y Premiación"
-ponente: "Equipo Qiskit Fall Fest"
+evento: "Panel 2:\nQuantum Career - Retos y Futuro de la Computación Cuántica"
+ponente: "Alejandro Gómez - Coffee break"
 fecha: "2025-11-21"
-hora_inicio: "16:00"
-hora_fin: "18:00"
-descripcion: "Ceremonia de cierre del hackathon, presentación de proyectos ganadores y entrega de premios."
+hora_inicio: "14:45"
+hora_fin: "15:45"
+descripcion: "Foro sobre educación STEAM y tecnologías cuánticas, introducción a juegos cuánticos y taller práctico \"Triqui de Heisenberg\"."
 lugar: "Auditorio Michel Valero, Universidad del Valle (E20, piso 2)"
 ---
