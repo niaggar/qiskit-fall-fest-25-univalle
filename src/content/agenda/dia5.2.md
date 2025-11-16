@@ -1,9 +1,9 @@
 ---
-evento: "Panel 1:\nTaller: La cuántica entra en la escuela. Herramientas prácticas para su salto al aula"
-ponente: "Invitado Especial - Coffee break"
+evento: "Panel 1: La cuántica entra en la escuela. Herramientas prácticas para su salto al aula"
+ponente: "Rafael Rey González - Taller"
 fecha: "2025-11-21"
 hora_inicio: "14:45"
 hora_fin: "15:45"
-descripcion: "Sesión de discusión sobre corrección de errores cuánticos, quantum advantage, perspectivas futuras del campo."
-lugar: "Salón de reuniones de Física, Universidad del Valle (E20, piso 2)"
+descripcion: "Foro sobre educación STEAM y tecnologías cuánticas, introducción a juegos cuánticos y taller práctico \"Triqui de Heisenberg\"."
+lugar: "Auditorio Michel Valero, Universidad del Valle (E20, piso 2)"
 ---
