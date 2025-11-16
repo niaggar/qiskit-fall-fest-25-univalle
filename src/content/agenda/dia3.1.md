@@ -5,4 +5,5 @@ fecha: "2025-11-19"
 hora_inicio: "14:00"
 hora_fin: "15:30"
 descripcion: "Introducción a los modelos de cómputo cuántico, entrelazamiento y teletransportación. Implementación de circuitos cuánticos simples y algoritmos como Deutsch-Jozsa o Grover."
+lugar: "Auditorio Michel Valero, Universidad del Valle (E20, piso 2)"
 ---

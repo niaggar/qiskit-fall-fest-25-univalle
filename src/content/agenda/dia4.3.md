@@ -5,4 +5,5 @@ fecha: "2025-11-20"
 hora_inicio: "17:15"
 hora_fin: "18:00"
 descripcion: "Presentación sobre el ecosistema de IBM Quantum, su enfoque hacia la investigación aplicada y las oportunidades profesionales en el campo."
+lugar: "Auditorio Michel Valero, Universidad del Valle (E20, piso 2)"
 ---
