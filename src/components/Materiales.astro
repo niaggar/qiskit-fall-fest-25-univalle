@@ -46,7 +46,7 @@ const materiales = [
 		<div class="materiales-grid">
 			{materiales.map((material) => (
 				<a 
-					href={`qiskit-fall-fest-25-univalle/docs/${material.archivo}`} 
+					href={`${import.meta.env.BASE_URL}/docs/${material.archivo}`} 
 					download 
 					class="material-card"
 				>
