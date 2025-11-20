@@ -1,0 +1,173 @@
+---
+import Seccion from './Seccion.astro';
+
+const materiales = [
+	{
+		dia: 1,
+		titulo: "Charla - Día 1",
+		archivo: "Charla - Dia 1 - Nicoas & Andres.pdf",
+		tipo: "PDF"
+	},
+	{
+		dia: 2,
+		titulo: "Clase - Día 2",
+		archivo: "Clase - Dia 2 - Marcela Herrera.pdf",
+		tipo: "PDF"
+	},
+	{
+		dia: 2,
+		titulo: "Taller - Día 2",
+		archivo: "Taller - Dia 2.ipynb",
+		tipo: "Notebook"
+	},
+	{
+		dia: 3,
+		titulo: "Clase - Día 3",
+		archivo: "Clase - Dia 3 - Karem Rodriguez.pdf",
+		tipo: "PDF"
+	},
+	{
+		dia: 3,
+		titulo: "Taller - Día 3",
+		archivo: "Taller - Dia 3.ipynb",
+		tipo: "Notebook"
+	},
+	{
+		dia: 4,
+		titulo: "Taller - Día 4",
+		archivo: "Taller - Dia 4.ipynb",
+		tipo: "Notebook"
+	}
+];
+---
+
+<Seccion title="Materiales" id="materiales">
+	<div class="materiales-container">
+		<div class="materiales-grid">
+			{materiales.map((material) => (
+				<a 
+					href={`/docs/${material.archivo}`} 
+					download 
+					class="material-card"
+				>
+					<div class="material-header">
+						<span class="material-dia">Día {material.dia}</span>
+						<span class="material-tipo">{material.tipo}</span>
+					</div>
+					<h3 class="material-titulo">{material.titulo}</h3>
+					<div class="material-download">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+							<polyline points="7 10 12 15 17 10"></polyline>
+							<line x1="12" y1="15" x2="12" y2="3"></line>
+						</svg>
+						<span>Descargar</span>
+					</div>
+				</a>
+			))}
+		</div>
+	</div>
+</Seccion>
+
+<style>
+	.materiales-intro {
+		text-align: center;
+		max-width: 60ch;
+		margin: 0 auto 2.5rem;
+		color: var(--gris-oscuro, #666);
+		font-size: 1.1rem;
+	}
+
+	.materiales-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+		gap: 20px;
+		margin-top: 2rem;
+	}
+
+	.material-card {
+        border: 1px solid #e3e3e3;
+		border-radius: 16px;
+		padding: 1.2rem 1rem;
+		box-shadow: 0 12px 28px -22px rgba(0, 0, 0, .35);
+        transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+		background: white;
+		text-decoration: none;
+		color: inherit;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.material-card:hover {
+        transform: translateY(-3px);
+        box-shadow:0 20px 44px -22px rgba(0,0,0,.45);
+        border-color: var(--rosa, #ff66aa);
+	}
+
+	.material-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.material-dia {
+		font-weight: 700;
+		font-size: 0.9rem;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+	}
+
+	.material-tipo {
+		background: var(--gris-claro, #f5f5f5);
+		padding: 0.25rem 0.75rem;
+		border-radius: 20px;
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--gris-oscuro, #666);
+	}
+
+	.material-titulo {
+		font-size: 1rem;
+		font-weight: 600;
+		margin: 0;
+		color: var(--negro, #1a1a1a);
+	}
+
+	.material-download {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--rosa, #ff66aa);
+		font-weight: 600;
+		margin-top: auto;
+		font-size: 0.95rem;
+	}
+
+	.material-download svg {
+		transition: transform 0.3s ease;
+	}
+
+	.material-card:hover .material-download svg {
+		transform: translateY(2px);
+	}
+
+	@media (max-width: 720px) {
+		.materiales-grid {
+			grid-template-columns: 1fr;
+			gap: 1rem;
+		}
+
+		.materiales-intro {
+			font-size: 1rem;
+		}
+
+		.material-card {
+			padding: 1.25rem;
+		}
+
+		.material-titulo {
+			font-size: 1.1rem;
+		}
+	}
+</style>
