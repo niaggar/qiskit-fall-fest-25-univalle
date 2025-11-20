@@ -4,37 +4,37 @@ import Seccion from './Seccion.astro';
 const materiales = [
 	{
 		dia: 1,
-		titulo: "Charla - Día 1",
+		titulo: "Charla - Experiencia de Pasantía en Computación Cuántica",
 		archivo: "Charla - Dia 1 - Nicoas & Andres.pdf",
 		tipo: "PDF"
 	},
 	{
 		dia: 2,
-		titulo: "Clase - Día 2",
+		titulo: "Clase - Fundamentos Básicos de la Computación Cuántica",
 		archivo: "Clase - Dia 2 - Marcela Herrera.pdf",
 		tipo: "PDF"
 	},
 	{
 		dia: 2,
-		titulo: "Taller - Día 2",
+		titulo: "Taller - Introducción a Qiskit y Hardware Cuántico",
 		archivo: "Taller - Dia 2.ipynb",
 		tipo: "Notebook"
 	},
 	{
 		dia: 3,
-		titulo: "Clase - Día 3",
+		titulo: "Clase - Circuitos Cuánticos y Primeros Algoritmos",
 		archivo: "Clase - Dia 3 - Karem Rodriguez.pdf",
 		tipo: "PDF"
 	},
 	{
 		dia: 3,
-		titulo: "Taller - Día 3",
+		titulo: "Taller - Teletransportación Cuántica con Qiskit",
 		archivo: "Taller - Dia 3.ipynb",
 		tipo: "Notebook"
 	},
 	{
 		dia: 4,
-		titulo: "Taller - Día 4",
+		titulo: "Taller - Modelos de Ising y Desarrollo de Software Cuántico",
 		archivo: "Taller - Dia 4.ipynb",
 		tipo: "Notebook"
 	}
@@ -46,7 +46,7 @@ const materiales = [
 		<div class="materiales-grid">
 			{materiales.map((material) => (
 				<a 
-					href={`/docs/${material.archivo}`} 
+					href={`qiskit-fall-fest-25-univalle/docs/${material.archivo}`} 
 					download 
 					class="material-card"
 				>
