@@ -1,5 +1,5 @@
 ---
-evento: "Charla - 100 años de la cuántica"
+evento: "Charla - Computación cuántica: de los Mitos al Diseño de Aplicaciones Reales"
 ponente: "Omar Calderón"
 fecha: "2025-11-21"
 hora_inicio: "14:00"
