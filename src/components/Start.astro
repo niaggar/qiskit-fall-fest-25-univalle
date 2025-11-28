@@ -12,9 +12,13 @@ import { Image } from 'astro:assets';
         </div>
 
         <div class='info'>
+            <div class='evento-finalizado'>
+                <p class='badge-finalizado'>Evento Finalizado</p>
+            </div>
+            
             <div class='dates'>
                 <h2><span class='dates-strong'>17-21</span></h2>
-                <h2>Noviembre</h2>
+                <h2>Noviembre 2025</h2>
             </div>
 
             
@@ -30,9 +34,8 @@ import { Image } from 'astro:assets';
             </a> -->
            
 
-            <p class='btn-shine text-center'>
-                ¡Inscripciones cerradas!
-                <span class='shine' aria-hidden='true'></span>
+            <p class='mensaje-gracias'>
+                ¡Gracias a todos los que participaron!
             </p>
         </div>
     </div>
@@ -155,13 +158,54 @@ import { Image } from 'astro:assets';
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: 1em;
-        margin-right: 40px;
+
     }
+
+    .evento-finalizado {
+        width: 100%;
+        margin-bottom: 0em;
+        text-align: left;
+    }
+
+    .badge-finalizado {
+        display: inline-block;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        padding: 0.5em 1.2em;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 0.9em;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        animation: pulseGlow 2s ease-in-out infinite;
+        text-align: left !important;
+    }
+
+    @keyframes pulseGlow {
+        0%, 100% {
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        50% {
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.5);
+        }
+    }
+
+    .mensaje-gracias {
+        font-size: 1.15em;
+        font-weight: 600;
+        color: var(--rosa, #ff66aa);
+        text-align: left;
+        margin: 0;
+        padding: 0.5em 0;
+        max-width: 300px;
+    }
+
     .dates {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        text-align: left;
         gap: 0.2em;
     }
 
@@ -281,6 +325,31 @@ import { Image } from 'astro:assets';
     padding: .5rem .8rem;
   }
   .venue-text{ font-size: 1rem; }
+
+  .evento-finalizado {
+      width: 100%;
+      margin-bottom: 0em;
+      margin-top: 1em;
+      text-align: center;
+  }
+
+  .badge-finalizado {
+      font-size: 0.85em;
+      padding: 0.4em 1em;
+      text-align: center !important;
+  }
+
+  .mensaje-gracias {
+      font-size: 1em;
+      text-align: center;
+      margin-bottom: 1.4em;
+
+  }
+
+  .dates {
+      align-items: center;
+      text-align: center;
+  }
 }
 
 /* Respeta reduce motion */
@@ -304,8 +373,17 @@ import { Image } from 'astro:assets';
             align-items: center;
         }
 
+        .badge-finalizado {
+            font-size: 0.85em;
+            padding: 0.4em 1em;
+        }
+
+        .mensaje-gracias {
+            font-size: 1em;
+        }
+
         section {
-        padding-top: 0px;
-    }
+            padding-top: 0px;
+        }
     }
 </style>

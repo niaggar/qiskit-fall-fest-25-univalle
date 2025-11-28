@@ -1,0 +1,387 @@
+---
+import Seccion from './Seccion.astro';
+import { Image } from 'astro:assets';
+
+// Importar la foto principal
+import principal from '../../public/images/album/principal.jpeg';
+
+// Importar las fotos secundarias
+import foto1 from '../../public/images/album/1.jpeg';
+import foto2 from '../../public/images/album/2.jpeg';
+import foto3 from '../../public/images/album/3.jpeg';
+import foto4 from '../../public/images/album/4.jpeg';
+import foto5 from '../../public/images/album/5.jpeg';
+import foto6 from '../../public/images/album/6.jpeg';
+import foto7 from '../../public/images/album/7.jpeg';
+
+const fotosSecundarias = [foto1, foto2, foto3, foto4, foto5, foto6, foto7];
+---
+
+<div class="album">
+    <div class="title-wrapper">
+        <div class="decorative-line"></div>
+        <h2 class="title">
+            <span class="title-top">¡Gracias por ser parte del</span>
+            <span class="title-bottom">Qiskit Fall Fest 2025!</span>
+        </h2>
+        <div class="decorative-line"></div>
+    </div>
+
+	<div class="album-container">
+		<!-- Mensaje de agradecimiento -->
+		<div class="mensaje-agradecimiento">
+			<p>El evento ha concluido. Queremos agradecer a todos los participantes, ponentes y colaboradores que hicieron posible este increíble encuentro.</p>
+		</div>
+
+		<!-- Foto principal -->
+		<div class="foto-principal">
+			<Image 
+				src={principal} 
+				alt="Foto grupal de todos los participantes del Qiskit Fall Fest 2025" 
+				width={1200}
+				quality={90}
+			/>
+			<p class="foto-caption">Todos los participantes del Qiskit Fall Fest 2025 - Univalle</p>
+		</div>
+		</div>
+
+		<!-- Botón para desplegar galería -->
+		<div class="toggle-galeria-container">
+			<button id="toggle-galeria" class="btn-ver-mas">
+				<span class="btn-text">Ver más fotos del evento</span>
+				<svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<polyline points="6 9 12 15 18 9"></polyline>
+				</svg>
+			</button>
+		</div>
+
+		<!-- Galería de fotos secundarias (inicialmente oculta) -->
+		<div class="fotos-galeria" id="galeria-fotos">
+			{fotosSecundarias.map((foto, index) => (
+				<div class="foto-item">
+					<Image 
+						src={foto} 
+						alt={`Momento ${index + 1} del evento`}
+						width={400}
+						quality={85}
+					/>
+				</div>
+			))}
+		</div>
+	</div>
+</div>
+
+<script>
+	const toggleBtn = document.getElementById('toggle-galeria');
+	const galeria = document.getElementById('galeria-fotos');
+	const btnText = toggleBtn?.querySelector('.btn-text');
+	const btnIcon = toggleBtn?.querySelector('.btn-icon') as HTMLElement;
+
+	toggleBtn?.addEventListener('click', () => {
+		const isVisible = galeria?.classList.toggle('visible');
+		
+		if (btnText && btnIcon) {
+			btnText.textContent = isVisible ? 'Ver menos momentos' : 'Ver más momentos del evento';
+			btnIcon.style.transform = isVisible ? 'rotate(180deg)' : 'rotate(0deg)';
+		}
+	});
+</script>
+
+<style>
+    .album {
+        width: 100%;
+        max-width: 1100px;
+        margin: 3rem auto 0;
+        padding: 0 1rem;
+        box-sizing: border-box;
+    }
+
+    /* Título especial y llamativo */
+    .title-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+        padding: 2rem 0;
+    }
+
+    .decorative-line {
+        flex: 1;
+        height: 3px;
+        background: linear-gradient(
+            90deg, 
+            transparent 0%, 
+            var(--rosa, #FF7EB6) 50%, 
+            transparent 100%
+        );
+        max-width: 200px;
+        position: relative;
+    }
+
+    .decorative-line::before,
+    .decorative-line::after {
+        content: '';
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: var(--rosa, #FF7EB6);
+        border-radius: 50%;
+        top: 50%;
+        transform: translateY(-50%);
+        box-shadow: 0 0 10px var(--rosa, #FF7EB6);
+    }
+
+    .decorative-line::before {
+        left: 0;
+    }
+
+    .decorative-line::after {
+        right: 0;
+    }
+
+    .title {
+        text-align: center;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        position: relative;
+    }
+
+    .title-top {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--gris-oscuro, #21272A);
+        letter-spacing: 0.5px;
+        display: block;
+    }
+
+    .title-bottom {
+        font-size: 2.5rem;
+        font-weight: 800;
+        background: var(--rosa, #FF7EB6);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gradient-shift 3s ease infinite;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        display: block;
+        position: relative;
+    }
+
+    .title-bottom::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        height: 4px;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            var(--rosa, #FF7EB6),
+            transparent
+        );
+        border-radius: 2px;
+    }
+
+    @keyframes gradient-shift {
+        0%, 100% {
+            background-position: 0% center;
+        }
+        50% {
+            background-position: 100% center;
+        }
+    }
+
+    /* Responsive para el título */
+    @media (max-width: 768px) {
+        .title-wrapper {
+            gap: 1rem;
+            padding: 1.5rem 0;
+        }
+
+        .decorative-line {
+            max-width: 80px;
+        }
+
+        .title-top {
+            font-size: 1.2rem;
+        }
+
+        .title-bottom {
+            font-size: 1.8rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .title-wrapper {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .decorative-line {
+            width: 150px;
+            height: 2px;
+        }
+
+        .decorative-line::before,
+        .decorative-line::after {
+            width: 6px;
+            height: 6px;
+        }
+
+        .title-top {
+            font-size: 1.1rem;
+        }
+
+        .title-bottom {
+            font-size: 1.5rem;
+        }
+    }
+        margin: 2.5rem auto 0;
+        padding: 0 1rem;
+        box-sizing: border-box;
+    }
+
+	.album-container {
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	.mensaje-agradecimiento {
+		text-align: center;
+		margin-bottom: 2.5rem;
+		padding: 0 1rem;
+	}
+
+	.mensaje-agradecimiento p {
+		font-size: 1.15rem;
+		line-height: 1.7;
+		color: var(--text-color, #333);
+		max-width: 800px;
+		margin: 0 auto;
+	}
+
+	.foto-principal {
+		width: 100%;
+		margin-bottom: 2rem;
+		border-radius: 12px;
+		overflow: hidden;
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+	}
+
+	.foto-principal :is(img, picture>img) {
+		width: 100%;
+		height: auto;
+		display: block;
+		object-fit: cover;
+	}
+
+	.foto-caption {
+		text-align: center;
+		font-style: italic;
+		color: #666;
+		margin-top: 0.75rem;
+		font-size: 0.95rem;
+	}
+
+	.toggle-galeria-container {
+		display: flex;
+		justify-content: center;
+		margin: 2rem 0;
+	}
+
+	.btn-ver-mas {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.75rem 2rem;
+		background: var(--rosa, #ff66aa);
+		color: white;
+		border: none;
+		border-radius: 50px;
+		font-size: 1rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+	}
+
+	.btn-ver-mas:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+	}
+
+	.btn-ver-mas:active {
+		transform: translateY(0);
+	}
+
+	.btn-icon {
+		transition: transform 0.3s ease;
+	}
+
+	.fotos-galeria {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		gap: 1.5rem;
+		margin-top: 2rem;
+		max-height: 0;
+		opacity: 0;
+		overflow: hidden;
+		transition: max-height 0.5s ease, opacity 0.5s ease, margin-top 0.5s ease;
+	}
+
+	.fotos-galeria.visible {
+		max-height: 3000px;
+		opacity: 1;
+		margin-top: 2rem;
+	}
+
+	.foto-item {
+		border-radius: 8px;
+		overflow: hidden;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+		aspect-ratio: 4/3;
+	}
+
+	.foto-item:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+	}
+
+	.foto-item :is(img, picture>img) {
+		width: 100%;
+		height: 100%;
+		display: block;
+		object-fit: cover;
+	}
+
+	/* Responsive */
+	@media (max-width: 768px) {
+		.fotos-galeria {
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+			gap: 1rem;
+		}
+
+		.foto-principal {
+			margin-bottom: 1.5rem;
+		}
+
+		.btn-ver-mas {
+			padding: 0.65rem 1.5rem;
+			font-size: 0.95rem;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.fotos-galeria {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
